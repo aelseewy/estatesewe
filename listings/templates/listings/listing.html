@@ -1,0 +1,333 @@
+{% extends 'core/base.html' %}
+{% load social_share %}
+{% load embed_video_tags %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}  | Listing  {% endblock %}
+
+{% block content %}
+  <main id="main">
+
+    <!-- ======= Intro Single ======= -->
+    <section class="intro-single">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 col-lg-8">
+            <div class="title-single-box">
+              <h1 class="title-single">{{ post.address }}</h1>
+              <span class="color-text-a">{{ post.city }}, {{ post.location }}</span>
+            </div>
+          </div>
+          <div class="col-md-12 col-lg-4">
+            <nav aria-label="breadcrumb" class="breadcrumb-box d-flex justify-content-lg-end">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                  <a href="{% url 'home' %}">Home</a>
+                </li>
+                <li class="breadcrumb-item">
+                  <a href="{% url 'listings' %}">Properties</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                  {{ post.address }}
+                </li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </section><!-- End Intro Single-->
+
+    <!-- ======= Property Single ======= -->
+    <section class="property-single nav-arrow-b">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12">
+            <div id="property-single-carousel" class="owl-carousel owl-arrow gallery-property">
+              {% if post.post_photo_1 %}
+                <div class="carousel-item-b">
+                  <img src="{{ post.post_photo_1.url }}" alt="">
+                </div>
+              {% endif %}
+              {% if post.post_photo_2 %}
+                <div class="carousel-item-b">
+                  <img src="{{ post.post_photo_2.url }}" alt="">
+                </div>
+              {% endif %}
+              {% if post.post_photo_3 %}
+                <div class="carousel-item-b">
+                  <img src="{{ post.post_photo_3.url }}" alt="">
+                </div>
+              {% endif %}
+            </div>
+            <div class="row justify-content-between">
+              <div class="col-md-5 col-lg-4">
+                <div class="property-price d-flex justify-content-center foo">
+                  <div class="card-header-c d-flex">
+                    <div class="card-box-ico">
+                      <span class="ion-money">$</span>
+                    </div>
+                    <div class="card-title-c align-self-center">
+                      <h5 class="title-c">{{ post.price |intcomma }}</h5>
+                    </div>
+                  </div>
+                </div>
+                <div class="property-summary">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="title-box-d section-t4">
+                        <h3 class="title-d">Quick Summary</h3>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="summary-list">
+                    <ul class="list">
+                      <li class="d-flex justify-content-between">
+                        <strong>Property ID:</strong>
+                        <span>{{post.id}}</span>
+                      </li>
+                      <li class="d-flex justify-content-between">
+                        <strong>Location:</strong>
+                        <span>{{ post.city }}, {{ post.location }}</span>
+                      </li>
+                      <li class="d-flex justify-content-between">
+                        <strong>Property Type:</strong>
+                        <span>{{ post.category }}</span>
+                      </li>
+                      <li class="d-flex justify-content-between">
+                        <strong>Status:</strong>
+                        <span>{{ post.estate_type }}</span>
+                      </li>
+                      <li class="d-flex justify-content-between">
+                        <strong>Area:</strong>
+                        <span>{{ post.sqmt }}m
+                          <sup>2</sup>
+                        </span>
+                      </li>
+                      <li class="d-flex justify-content-between">
+                        <strong>Beds:</strong>
+                        <span>{{ post.bedrooms }}</span>
+                      </li>
+                      <li class="d-flex justify-content-between">
+                        <strong>Baths:</strong>
+                        <span>{{ post.bathrooms }}</span>
+                      </li>
+                      <li class="d-flex justify-content-between">
+                        <strong>Garage:</strong>
+                        <span>{{ post.garage }}</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-7 col-lg-7 section-md-t3">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="title-box-d">
+                      <h3 class="title-d">Property Description</h3>
+                    </div>
+                  </div>
+                </div>
+                <div class="property-description">
+                  <p class="description color-text-a">
+                    {{ post.body |safe }}
+                  </p>
+                  <p class="description color-text-a no-margin">
+                    {{ post.description |safe }}
+                  </p>
+                </div>
+                <div class="socials-a">
+                  <ul class="list-inline">
+                    <li class="list-inline-item">
+                      <a href="https://www.facebook.com/sharer/sharer.php?u={{request.build_absolute_uri}}" target="_blank">
+                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                      </a>
+                    </li>
+                    <li class="list-inline-item">
+                      <a href="whatsapp://send?text=http://seweestate.sewemall.com/" data-action="share/whatsapp/share">
+                        <i class="fa fa-twitter" aria-hidden="true"></i>
+                      </a>
+                    </li>
+                    <li class="list-inline-item">
+                      <a class="social-link-share email" href="{% url "post_share" post.id %}" target= "_blank">
+                        <i class="fa fa-dribbble" aria-hidden="true"></i>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="row section-t3">
+                  <div class="col-sm-12">
+                    <div class="title-box-d">
+                      <h3 class="title-d">Amenities</h3>
+                    </div>
+                  </div>
+                </div>
+                <div class="amenities-list color-text-a">
+                  <ul class="list-a no-margin">
+                    {% for i in post.feature_type %}
+                    <li>{{ i }}</li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-10 offset-md-1">
+            <ul class="nav nav-pills-a nav-pills mb-3 section-t3" id="pills-tab" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" id="pills-video-tab" data-toggle="pill" href="#pills-video" role="tab" aria-controls="pills-video" aria-selected="true">Video</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="pills-plans-tab" data-toggle="pill" href="#pills-plans" role="tab" aria-controls="pills-plans" aria-selected="false">Floor Plans</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="pills-map-tab" data-toggle="pill" href="#pills-map" role="tab" aria-controls="pills-map" aria-selected="false">Ubication</a>
+              </li>
+            </ul>
+            <div class="tab-content" id="pills-tabContent">
+            {% if post.video_file %}
+              <div class="tab-pane fade show active" id="pills-video" role="tabpanel" aria-labelledby="pills-video-tab">
+                <video width="500" height="460" controls >
+                <source src="{{post.video_file.url}}"  type="video/mp4" >
+              </div>
+            {% else %}
+              <div class="tab-pane fade show active" id="pills-video" role="tabpanel" aria-labelledby="pills-video-tab">
+                {% video post.video  '500x500' %}
+              </div>
+            {% endif %}
+              <div class="tab-pane fade" id="pills-plans" role="tabpanel" aria-labelledby="pills-plans-tab">
+                <img src="{% static 'assets/img/plan2.jpg' %}" alt="" class="img-fluid">
+              </div>
+              <div class="tab-pane fade" id="pills-map" role="tabpanel" aria-labelledby="pills-map-tab">
+                
+                <div id='map' style='width: 400px; height: 300px;'></div>
+                <script>
+                  mapboxgl.accessToken = 'pk.eyJ1IjoiZWxzZXd5IiwiYSI6ImNrb2docXRsMzBmdGczMmxjZTF4NG92ZmYifQ.73IuzW9t9ejagFFml3DEew';
+                  var map = new mapboxgl.Map({
+                    container: 'map',
+                    style: 'mapbox://styles/mapbox/streets-v11',
+                    center: [{{post.longtitude }}, {{post.latitude}}], // starting position [lng, lat]
+                    zoom: 15 // starting zoom
+                  });
+                </script>
+
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="row section-t3">
+              <div class="col-sm-12">
+                <div class="title-box-d">
+                  <h3 class="title-d">Contact Agent</h3>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 col-lg-4">
+                <img src="{{post.author.photo.url}}" alt="" class="img-fluid">
+              </div>
+              <div class="col-md-6 col-lg-4">
+                <div class="property-agent">
+                  <h4 class="title-agent">{{ post.author.first_name }} {{ post.author.last_name }}</h4>
+                  <p class="color-text-a">
+                    {{ post.author.bio}}
+                  </p>
+                  <ul class="list-unstyled">
+                    <li class="d-flex justify-content-between">
+                      <strong>WhatsApp Phone:</strong>
+                      <span class="color-text-a">{{ post.author.number }}</span>
+                    </li>
+                    <li class="d-flex justify-content-between">
+                      <strong>Email:</strong>
+                      <span class="color-text-a">{{ post.author.email}}</span>
+                    </li>
+                    <li class="d-flex justify-content-between">
+                      <strong>Skype:</strong>
+                      <span class="color-text-a">Annabela.ge</span>
+                    </li>
+                  </ul>
+                  <div class="socials-a">
+                    <ul class="list-inline">
+                      <li class="list-inline-item">
+                        <a href="#">
+                          <i class="fa fa-facebook" aria-hidden="true"></i>
+                        </a>
+                      </li>
+                      <li class="list-inline-item">
+                        <a href="#">
+                          <i class="fa fa-twitter" aria-hidden="true"></i>
+                        </a>
+                      </li>
+                      <li class="list-inline-item">
+                        <a href="#">
+                          <i class="fa fa-instagram" aria-hidden="true"></i>
+                        </a>
+                      </li>
+                      <li class="list-inline-item">
+                        <a href="#">
+                          <i class="fa fa-pinterest-p" aria-hidden="true"></i>
+                        </a>
+                      </li>
+                      <li class="list-inline-item">
+                        <a href="#">
+                          <i class="fa fa-dribbble" aria-hidden="true"></i>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 col-lg-4">
+                <div class="property-contact">
+                  <form action="{% url 'contact' %}" method="POST">
+                  {% csrf_token %}
+                    {% if user.is_authenticated %}
+                      <input type="hidden" name="user_id" value="{{ user.id }}">
+                    {% else %}
+                      <input type="hidden" name="user_id" value="0">
+                    {% endif %}
+                    <input type="hidden" name="realtor_email" value="{{ post.author.email }}">
+                    <input type="hidden" name="listing_id" value="{{ post.id }}">
+                    <div class="row">
+                      <div class="col-md-12 mb-1">
+                        <div class="form-group">
+                          <input type="text" name="listing" class="form-control" placeholder="listing" value="{{ post.title }}"" required>
+                        </div>
+                      </div>
+                      <div class="col-md-12 mb-1">
+                        <div class="form-group">
+                          <input type="text" name="name" class="form-control" {% if user.is_authenticated %} value="{{ user.first_name }} {{ user.last_name }}" {% endif %} required>
+                        </div>
+                      </div>
+                      <div class="col-md-12 mb-1">
+                        <div class="form-group">
+                          <input type="phone" name="phone" class="form-control" placeholder="whatsapp number" required>
+                        </div>
+                      </div>
+                      <div class="col-md-12 mb-1">
+                        <div class="form-group">
+                          <input type="email" name="email" class="form-control" {% if user.is_authenticated %} value="{{ user.email }}" {% endif %} required>
+                        </div>
+                      </div>
+                      <div class="col-md-12 mb-1">
+                        <div class="form-group">
+                          <textarea id="textMessage" class="form-control" placeholder="Comment *" name="message" cols="45" rows="8" required></textarea>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <button type="submit" class="btn btn-a">Send Message</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section><!-- End Property Single-->
+
+  </main><!-- End #main -->
+
+{% endblock %}
